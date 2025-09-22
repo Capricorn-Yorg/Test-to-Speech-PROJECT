@@ -20,11 +20,11 @@ Award-Winning Cloud-Native Text-to-Speech Solution Powered by AWS Serverless Arc
 
  Overview
 
-AWS Polly Text-to-Speech Converter is a cutting-edge, serverless web application that transforms written text into natural-sounding speech in real-time. Built with AWS serverless technologies, this solution demonstrates enterprise-grade cloud architecture with exceptional user experience.
+AWS Polly Text-to-Speech Converter is a cutting-edge, serverless web application that transforms written text into natural-sounding speech in real-time. Built with AWS serverless technologies, this solution demonstrates enterprise-grade cloud architecture with an exceptional user experience.
 
 This project showcases seamless integration between frontend interfaces and cloud services, providing instant text-to-speech conversion with multiple voice options, real-time processing, and professional audio quality.
 
- Award-Winning Features
+ Features
 
  User Experience
 - Elegant Glass Morphism UI with smooth animations and gradients
@@ -44,7 +44,7 @@ This project showcases seamless integration between frontend interfaces and clou
  Enterprise Security
 - CORS Configuration for secure cross-origin requests
 - Input Validation and sanitization at multiple layers
-- AWS IAM Role-Based permissions with least privilege principle
+- AWS IAM Role-Based permissions with the least privilege principle
 - Secure Data Transmission with HTTPS encryption
 - Production-Ready error logging and monitoring
 
@@ -278,7 +278,7 @@ bash
  Fork and clone the repository
 git clone https://github.com/Capricorn-Yorg/Test-to-Speech-PROJECT.git
 
- Set up development environment
+ Set up the development environment
 cd aws-polly-tts
 npm install -g aws-sam-cli
 
@@ -300,7 +300,7 @@ aws-polly-tts/
 
 <div align="center">
 
-This repository is if you find it helpful!
+
 
 [Report Bug](https://github.com/Capricorn-Yorg/Test-to-Speech-PROJECT/issues) • [Request Feature](https://github.com/Capricorn-Yorg/Test-to-Speech-PROJECT/issues) • [View Demo](http://myappfrontend-project.s3-website.eu-north-1.amazonaws.com/)
 
@@ -311,7 +311,7 @@ This repository is if you find it helpful!
  Support
 
 For support and questions:
-- 📧 Email: support@yourapp.com
+- 📧 Email: yorgenblewuada@gmail.com
 - 💬 Discussions: [GitHub Discussions](https://github.com/Capricorn-Yorg/Test-to-Speech-PROJECT/discussions)
 - 🐛 Issues: [GitHub Issues](https://github.com/Capricorn-Yorg/Test-to-Speech-PROJECT/issues)
 
