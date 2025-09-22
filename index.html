@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Polly Text-to-Speech</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .input-group {
+            margin-bottom: 30px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 20px;
+            border: 2px solid #e1e5e9;
+            border-radius: 15px;
+            font-size: 16px;
+            resize: vertical;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .voice-selection {
+            margin: 20px 0;
+        }
+
+        select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        button {
+            flex: 1;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        #generateBtn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        #generateBtn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        #playBtn {
+            background: #4CAF50;
+            color: white;
+        }
+
+        #playBtn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .audio-player {
+            margin-top: 30px;
+            display: none;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .status {
+            text-align: center;
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 AWS Polly TTS</h1>
+        
+        <div class="input-group">
+            <textarea 
+                id="textInput" 
+                placeholder="Enter your text here... (Max 3000 characters)"
+                maxlength="3000"
+            >Hello! This is an impressive AWS Polly text-to-speech demo. The audio is generated in real-time using AWS Lambda and Polly services.</textarea>
+            
+            <div class="voice-selection">
+                <select id="voiceSelect">
+                    <option value="Joanna">Joanna (Female, US English)</option>
+                    <option value="Matthew">Matthew (Male, US English)</option>
+                    <option value="Amy">Amy (Female, British English)</option>
+                    <option value="Brian">Brian (Male, British English)</option>
+                    <option value="Mia">Mia (Female, Australian English)</option>
+                    <option value="Ricardo">Ricardo (Male, Brazilian Portuguese)</option>
+                    <option value="Lucia">Lucia (Female, Spanish)</option>
+                    <option value="Lea">Lea (Female, French)</option>
+                </select>
+            </div>
+
+            <div class="controls">
+                <button id="generateBtn" onclick="generateSpeech()">
+                    Generate Speech
+                </button>
+                <button id="playBtn" onclick="playAudio()" disabled>
+                    Play Audio
+                </button>
+            </div>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Generating audio with AWS Polly...</p>
+        </div>
+
+        <div id="status"></div>
+
+        <div class="audio-player" id="audioPlayer">
+            <h3>🎧 Generated Audio</h3>
+            <audio id="audioElement" controls></audio>
+            <div class="audio-info" id="audioInfo"></div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration - UPDATE THIS WITH YOUR LAMBDA FUNCTION URL
+        const LAMBDA_FUNCTION_URL = 'https://g3951me76i.execute-api.us-east-1.amazonaws.com/dev/convert';
+        
+        // DOM Elements
+        const textInput = document.getElementById('textInput');
+        const voiceSelect = document.getElementById('voiceSelect');
+        const generateBtn = document.getElementById('generateBtn');
+        const playBtn = document.getElementById('playBtn');
+        const loading = document.getElementById('loading');
+        const statusDiv = document.getElementById('status');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const audioElement = document.getElementById('audioElement');
+        const audioInfo = document.getElementById('audioInfo');
+
+        // Character counter
+        textInput.addEventListener('input', updateCharCount);
+        
+        function updateCharCount() {
+            const charCount = textInput.value.length;
+            textInput.placeholder = `Enter your text here... (${charCount}/3000 characters)`;
+        }
+
+        // Update character count on load
+        updateCharCount();
+
+        async function generateSpeech() {
+            const text = textInput.value.trim();
+            const voice = voiceSelect.value;
+
+            // Validation
+            if (!text) {
+                showStatus('Please enter some text to convert to speech.', 'error');
+                return;
+            }
+
+            if (text.length > 3000) {
+                showStatus('Text exceeds 3000 character limit. Please shorten your text.', 'error');
+                return;
+            }
+
+            // UI State
+            setLoadingState(true);
+            showStatus('Starting audio generation process...', 'info');
+
+            try {
+                // Prepare request data
+                const requestData = {
+                    text: text,
+                    voice: voice,
+                    timestamp: new Date().toISOString()
+                };
+
+                showStatus('Sending request to AWS Lambda...', 'info');
+
+                // Send request to Lambda
+                const response = await fetch(LAMBDA_FUNCTION_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                showStatus('Processing response from AWS Polly...', 'info');
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Create audio URL from base64 data
+                    const audioUrl = `data:audio/mp3;base64,${data.audioData}`;
+                    
+                    // Set audio source
+                    audioElement.src = audioUrl;
+                    
+                    // Show audio player
+                    audioPlayer.style.display = 'block';
+                    
+                    // Enable play button
+                    playBtn.disabled = false;
+                    
+                    // Show audio info
+                    audioInfo.innerHTML = `
+                        <p><strong>Voice:</strong> ${data.voiceUsed}</p>
+                        <p><strong>Generated:</strong> ${new Date().toLocaleString()}</p>
+                        <p><strong>Text length:</strong> ${text.length} characters</p>
+                    `;
+                    
+                    showStatus('Audio generated successfully! Click "Play Audio" to listen.', 'success');
+                    
+                    // Auto-play after generation (optional)
+                    setTimeout(() => {
+                        audioElement.play().catch(e => {
+                            console.log('Auto-play prevented by browser');
+                        });
+                    }, 500);
+                    
+                } else {
+                    throw new Error(data.error || 'Unknown error occurred');
+                }
+
+            } catch (error) {
+                console.error('Error generating speech:', error);
+                showStatus(`Error: ${error.message}`, 'error');
+            } finally {
+                setLoadingState(false);
+            }
+        }
+
+        function playAudio() {
+            if (audioElement.src) {
+                audioElement.play().catch(error => {
+                    showStatus('Error playing audio: ' + error.message, 'error');
+                });
+            }
+        }
+
+        function setLoadingState(isLoading) {
+            generateBtn.disabled = isLoading;
+            playBtn.disabled = isLoading;
+            loading.style.display = isLoading ? 'block' : 'none';
+            
+            if (isLoading) {
+                generateBtn.textContent = 'Generating...';
+            } else {
+                generateBtn.textContent = 'Generate Speech';
+            }
+        }
+
+        function showStatus(message, type) {
+            statusDiv.innerHTML = message;
+            statusDiv.className = `status ${type}`;
+            statusDiv.style.display = 'block';
+            
+            // Auto-hide success messages after 5 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    statusDiv.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl+Enter to generate speech
+            if (e.ctrlKey && e.key === 'Enter') {
+                generateSpeech();
+            }
+            
+            // Space to play/pause audio when audio element is focused
+            if (e.key === ' ' && document.activeElement !== textInput) {
+                e.preventDefault();
+                if (audioElement.src) {
+                    if (audioElement.paused) {
+                        audioElement.play();
+                    } else {
+                        audioElement.pause();
+                    }
+                }
+            }
+        });
+
+        // Initialize
+        showStatus('Ready to generate speech. Enter text and click "Generate Speech".', 'info');
+    </script>
+</body>
+</html>
