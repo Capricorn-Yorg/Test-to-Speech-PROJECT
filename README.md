@@ -1,5 +1,5 @@
 
-AWS Polly Text-to-Speech Converter
+AWS Polly (VoiceCraft) Text-to-Speech Converter
 
 <div align="center">
 
@@ -10,7 +10,7 @@ AWS Polly Text-to-Speech Converter
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 [![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3)](https://developer.mozilla.org/en-US/docs/Web/CSS)
 
-Award-Winning Cloud-Native Text-to-Speech Solution Powered by AWS Serverless Architecture
+VoiceCraft Cloud-Native Text-to-Speech Solution Powered by AWS Serverless Architecture
 
 [Live Demo](http://myappfrontend-project.s3-website.eu-north-1.amazonaws.com/) • [Features](-features) • [Architecture](-architecture) • [Installation](-installation) • [API Reference](-api-reference)
 
@@ -20,7 +20,7 @@ Award-Winning Cloud-Native Text-to-Speech Solution Powered by AWS Serverless Arc
 
  Overview
 
-AWS Polly Text-to-Speech Converter is a cutting-edge, serverless web application that transforms written text into natural-sounding speech in real-time. Built with AWS serverless technologies, this solution demonstrates enterprise-grade cloud architecture with an exceptional user experience.
+VoiceCraft Text-to-Speech Converter is a cutting-edge, serverless web application that transforms written text into natural-sounding speech in real-time. Built with AWS serverless technologies, this solution demonstrates enterprise-grade cloud architecture with an exceptional user experience.
 
 This project showcases seamless integration between frontend interfaces and cloud services, providing instant text-to-speech conversion with multiple voice options, real-time processing, and professional audio quality.
 
