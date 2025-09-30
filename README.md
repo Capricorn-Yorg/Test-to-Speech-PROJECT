@@ -59,16 +59,7 @@ graph TB
     E --> F[HTML5 Audio Player]
     F --> G[User Experience]
     
-    H[CloudWatch Logs] --> C
-    C --> H
-    
-    style A fill:667eea,color:white
-    style B fill:764ba2,color:white
-    style C fill:f093fb,color:black
-    style D fill:f5576c,color:white
-    style E fill:4facfe,color:white
-    style F fill:00f2fe,color:black
-    style G fill:667eea,color:white
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/2a3014d6-800b-438d-90fc-48773764936a" />
 
 
  System Components
